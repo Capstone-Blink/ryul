@@ -13,7 +13,7 @@ const SettingMainScreen = ({ navigation }) => {
 
     useEffect(() => {
         async function getUser(){
-            if (state.isLoggedIn){
+            if (state.isLoggedIn && state.userName == null){
                 token = state.userToken
                 await getUserInfo({ token })
         }}
@@ -96,9 +96,9 @@ const SettingMainScreen = ({ navigation }) => {
                 {state.isLoggedIn ?
                 <TouchableOpacity
                 style={styles.settingButton}
-                onPress={() => navigation.navigate("유저연결")}>
+                onPress={() => {state.userInfo == "보호자" ? navigation.navigate("보호자연결"):navigation.navigate("유저연결")}}>
                     <Text
-                    style={styles.settingButtonText}>보호자 등록</Text>
+                    style={styles.settingButtonText}>{state.userInfo == "보호자"?"사용자 등록":"보호자 등록"}</Text>
                 </TouchableOpacity>:
                 <TouchableOpacity
                 style={styles.settingButton}>

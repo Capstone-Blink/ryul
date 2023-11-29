@@ -1,23 +1,36 @@
 import { useState, useContext, useEffect  } from 'react';
 import React from 'react';
 import { Text, View, Image, StyleSheet, TouchableOpacity  } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Font from "expo-font";
 import { AuthContext } from '../../contexts/Auth';
 import { blinkLogo, speaker } from '../../imageUrls.js';
 
 const HomeMainScreen = ({ navigation }) => {
     const { getUserInfo } = useContext(AuthContext);
+    const { signIn2 } = useContext(AuthContext);
+    const { getLocation1 } = useContext(AuthContext);
     const { state } = useContext(AuthContext);
     const [isFont, setIsFont] = useState(false);
+    const [ userName, setUserName ] = useState(null);
     
     useEffect(() => {
         async function getUser(){
-            if (state.isLoggedIn && state.userName == null){
+            if(state.isLoggedIn && state.userName == null){
                 token = state.userToken
                 await getUserInfo({ token })
-        }}
+                getLocation1( token )
+            }
+            else {
+                if( await AsyncStorage.getItem("userToken") != null && !state.isLoggedIn){
+                    token = await AsyncStorage.getItem("userToken")
+                    await signIn2(token)
+                    await getUserInfo({token})
+                    getLocation1( token )
+            }}
+        }
         getUser();
-    },[state]);
+    },[]);
 
     useEffect(() => {
         async function fetchData(){

@@ -8,3 +8,6 @@ export const rightDirection = require("./assets/images/rightDirection.png");
 
 export const userImage = require("./assets/images/user.png");
 
+export const idIcon = require("./assets/images/idIcon.png");
+
+export const appStart = require("./assets/images/appStart.png")

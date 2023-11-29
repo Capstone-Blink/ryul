@@ -1,14 +1,15 @@
 import { NavigationContainer } from "@react-navigation/native";
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as SecureStore from "expo-secure-store";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { useMemo, useEffect, useReducer, createContext } from "react";
-
+import * as Location from 'expo-location';
 import { AuthProvider } from "./contexts/Auth";
 import HomeScreen from "./screens/Home/Home";
-import AlertScreen from "./screens/Alert";
+import AlertScreen from "./screens/Alert/AlertMain";
 import SettingScreen from "./screens/Setting/Setting";
 import AllScreen from "./screens/All";
 
@@ -17,6 +18,9 @@ const Tab = createBottomTabNavigator();
 
 export default function App() {
 
+  const ask = async () => {
+    const permission = await Location.requestForegroundPermissionsAsync();
+  };
   
   useEffect(() => {
     // const bootstrapAsync = async () => {
